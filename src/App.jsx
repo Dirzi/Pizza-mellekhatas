@@ -3,13 +3,13 @@ import './App.css'
 
 const ListaKomponens = ({ elemek }) => (
   <ol>
-    {elemek.map((elem, index) => (
+    {Object.values(elemek).map((elem, index) => (
       <li key={index}>{elem.name} - {elem.email}</li>
     ))}
   </ol>
 );
 export const App = () => {
-  const [adatok, setAdatok] = useState([]);
+  const [adatok, setAdatok] = useState({});
 
   useEffect(() => {
     fetch('https://itmp.sulla.hu/users')
