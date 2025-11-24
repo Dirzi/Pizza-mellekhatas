@@ -1,29 +1,38 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
-const ListaKomponens = ({ elemek }) => (
-  <ol>
-    {Object.values(elemek).map((elem, index) => (
-      <li key={index}>{elem.name} - {elem.email}</li>
-    ))}
-  </ol>
-);
-export const App = () => {
-  const [adatok, setAdatok] = useState({});
+function App() {
+  const [pizzak, setPizzak] = useState([]);
 
   useEffect(() => {
-    fetch('https://itmp.sulla.hu/users')
-    .then((res) => (res.ok? res.json() : []))
-    .then((tartalom) => setAdatok(tartalom));
-  }, [])
+    fetch("https://pizza.sulla.hu/pizza")
+      .then(res => res.json())
+      .then(data => setPizzak(data));
+  }, []);
 
   return (
     <div className="container">
-      <div className="row m-5 p-5 border">
-        <ListaKomponens elemek={adatok} />
+      <h1 className="mt-4 mb-4 text-center">Pizzák</h1>
+
+      <div className="row">
+        {pizzak.map(pizza => (
+          <div key={pizza.id} className="col-md-4 mb-4">
+            <div className="card shadow-sm">
+              <img
+                src={pizza.image_url}
+                alt={pizza.name}
+                className="card-img-top"
+                style={{ height: "250px", objectFit: "cover" }}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{pizza.name}</h5>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default App;
